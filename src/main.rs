@@ -264,13 +264,6 @@ impl Grid {
     }
 
     fn compute_crossmas_count(&mut self, x: i32, y: i32) {
-        let positions: Vec<(i32, i32)> = vec![
-            (x - 2, y - 2),
-            (x + 2, y - 2),
-            (x + 2, y + 2),
-            (x - 2, y + 2)
-        ];
-
         let dirs: Vec<(i32, i32)> = vec![
             (1, 1),
             (-1, 1),
@@ -278,15 +271,19 @@ impl Grid {
             (1, -1)
         ];
 
-        let mut count = 0;
+        let char_codes = dirs.iter().map(|(dx, dy)| {
+            if (self.get(x - 1, y - 1) == self.get(x + 1, y + 1)) {
+                return 0;
+            }
+            if (self.get(x - 1, y + 1) == self.get(x + 1, y - 1)) {
+                return 0;
+            }
+            self.get(x + *dx, y + *dy)
+                .map(|c| c as i32)
+                .unwrap_or(0)
+        });
 
-        for i in 0..4 {
-            let (x0, y0) = positions[i];
-            let (dx, dy) = dirs[i];
-            count += self.num_mas(x0, y0, dx, dy)
-        }
-
-        if (count >= 2) {
+        if (char_codes.sum::<i32>() == 320) {
             self.count[y as usize][x as usize] = 1;
         }
     }
