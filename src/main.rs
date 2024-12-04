@@ -289,7 +289,7 @@ impl Grid {
     }
 }
 
-fn day4_part1() {
+fn day4() {
     const INPUT: &str = include_str!("input_day4.txt");
 
     let mut line_length = -1;
@@ -354,5 +354,5 @@ fn day4_part1() {
 }
 
 fn main() {
-    day4_part1();
+    day4();
 }
